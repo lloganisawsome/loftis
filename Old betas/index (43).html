@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loftis Button - Lizard Sound Effect</title>
+  <title>Loftis Button - Larger Reverse Rain</title>
   <style>
     /* Base Styles */
     * {
@@ -198,18 +198,19 @@
     }
 
     /* --- Reverse Rain Floating Image Effect --- */
+    /* This animation is applied to temporary images */
     .float-img {
       position: absolute;
-      width: 600px;
-      height: 600px;
-      object-fit: contain;
+      width: 600px; /* NEW: Larger size for floating images */
+      height: 600px; /* NEW: Larger size for floating images */
+      object-fit: contain; /* Ensure image fits within bounds */
       pointer-events: none;
-      animation: floatReverse 2.5s ease-out forwards;
+      animation: floatReverse 2.5s ease-out forwards; /* Increased duration slightly */
       z-index: 1000;
     }
     @keyframes floatReverse {
-        0% { transform: scale(0.1) rotate(0deg); opacity: 1; }
-        100% { transform: scale(1) rotate(-720deg); opacity: 0; top: -100px; }
+        0% { transform: scale(0.1) rotate(0deg); opacity: 1; } /* Start smaller scale, full opacity */
+        100% { transform: scale(1) rotate(-720deg); opacity: 0; top: -100px; } /* End at original scale, fade out */
     }
 
     /* --- Lizard Animation (Right to Left) --- */
@@ -300,8 +301,6 @@
 </head>
 <body>
 
-  <audio id="lizardAudio" src="lizzard.mp3" preload="auto"></audio>
-
   <div id="countersBar">
     <button class="add-new" id="addCounterBtnTop">➕ Add Counter</button>
   </div>
@@ -313,13 +312,11 @@
   </div>
 
   <div class="emoji-board">
-    <button data-text="" data-effect="lizard">🦎</button>
+    <button data-text="lizard" data-effect="lizard">🦎</button>
     <button data-text="stop">⛔</button>
     <button data-text="skull">💀</button>
     <button data-text="cool">😎</button>
     <button data-text="mic drop 1 2 1 2 loftis!">🎤</button>
-        <button data-text="what>">Alex</button>
-            <button data-text="6 7">67!</button>
     <button data-text="HEY!...... smiles" class="hiller-emoji" data-effect="hiller">
       <img src="hiller.png" alt="Hiller">
     </button>
@@ -331,7 +328,7 @@
     <button id="sayBtn">Say it</button>
   </div>
 
-  <button id="loftisBtn" data-effect="lofdis">LOFTIS</button>
+  <button id="loftisBtn" data-effect="loftis">LOFTIS</button>
 
   <button id="toggleListBtn">Toggle Note</button>
 
@@ -378,7 +375,6 @@
     const saveStatus = document.getElementById('saveStatus');
     const countersBar = document.getElementById('countersBar');
     const addCounterBtnTop = document.getElementById('addCounterBtnTop');
-    const lizardAudio = document.getElementById('lizardAudio'); // NEW: Audio element
     
     let counters = {}; // Local state for counters
 
@@ -413,26 +409,8 @@
         img.style.animationDelay = `${Math.random() * 0.7}s`; // Slightly longer random delay
 
         document.body.appendChild(img);
-        setTimeout(() => img.remove(), 3000); 
+        setTimeout(() => img.remove(), 3000); // Adjusted removal time to match new animation duration
       }
-    }
-
-    // NEW: Play Lizard Sound Function
-    function playLizardSound() {
-        // Stop any currently playing audio and reset to the start
-        lizardAudio.pause();
-        lizardAudio.currentTime = 0; 
-        
-        // Play the sound
-        lizardAudio.play().catch(error => {
-            // Catch errors if play() is interrupted (like user hasn't interacted with the page yet)
-            console.warn("Audio playback prevented:", error);
-        });
-
-        // Stop the audio after 1 second (1000 milliseconds)
-        setTimeout(() => {
-            lizardAudio.pause();
-        }, 1000);
     }
     
     // Handle Lizard Animation
@@ -447,7 +425,7 @@
         }, 5500);
     }
 
-    // --- 3. Speech and Image Button Handlers ---
+    // --- 3. Speech and Image Button Handlers (Simplified for Reverse Rain) ---
     emojis.forEach(btn => {
       btn.addEventListener('click', () => {
         const text = btn.dataset.text;
@@ -456,10 +434,10 @@
 
         if (effect === 'lizard') {
             startLizardAnimation();
-            playLizardSound(); // NEW: Call the sound function
         } else if (effect === 'hiller') {
             startReverseRain('hiller.png', 40);
         } else if (text.toLowerCase().includes('loftis')) {
+          // This catches the 'mic drop' button which contains 'loftis'
           startReverseRain('loftis.png', 40);
         }
       });
@@ -471,10 +449,10 @@
       sayInput.value = '';
     });
 
-    // Main LOFTIS button handler
+    // Updated: Main LOFTIS button handler
     loftisBtn.addEventListener('click', () => {
       speak("Loftis");
-      startReverseRain('loftis.png', 60); 
+      startReverseRain('loftis.png', 60); // Use a higher count for the main button
     });
 
 
